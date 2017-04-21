@@ -1,0 +1,26 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AngleStepper	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setCurrentAngle	KEYWORD2
+setCurrentSpeed	KEYWORD2
+setMaxSpeed	KEYWORD2
+getCurrentAngle	KEYWORD2
+getCurrentStep	KEYWORD2
+moveTo	KEYWORD2
+moveBy	KEYWORD2
+moveToNext	KEYWORD2
+
+######################################
+# Constants (LITERAL1)
+#######################################
