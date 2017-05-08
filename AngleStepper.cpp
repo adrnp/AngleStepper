@@ -16,7 +16,8 @@ _gearRatio(gearRatio),
 _currentAngle(0),
 _currentStep(0),
 _targetAngle(0),
-_maxSpeed(10)
+_maxSpeed(10),
+_numSteps(8)
 {
 	// based on the motor properties, set the angle per step that is capable
 	_anglePerFullStep = 360.0f/_stepsPerRevolution;
@@ -72,9 +73,8 @@ float AngleStepper::moveToNext() {
 	// make sure we have the proper step delay (speed)
 	calculateStepDelay();
 
-	// going to move a full step, so need to determine if that is 1, 2, 4 or 8 steps based on the mode
-	int stepDifference = (1 << _stepMode);
-	move(stepDifference);
+	// move the number of steps defined by the num steps parameter
+	move(_numSteps);
 
 	return _currentAngle;
 }

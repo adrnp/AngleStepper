@@ -48,6 +48,8 @@ public:
 
 	void setMaxSpeed(int anglePerSecond) { _maxSpeed = anglePerSecond; };
 
+	void setNextStepSize(int numSteps) { _numSteps = numSteps; };
+
 	float getCurrentAngle() { return _currentAngle; };
 
 	int getCurrentStep() { return _currentStep; };
@@ -85,6 +87,7 @@ private:
 
 
 	int _maxSpeed;
+	int _numSteps;
 
 	int _stepDelayMicroseconds;
 
