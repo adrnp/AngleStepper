@@ -93,7 +93,15 @@ void AngleStepper::calculateStepDelay() {
 
 void AngleStepper::move(int steps) {
 
-	// TODO: set the direction based on the sign of the steps
+	// set the direction based on the sign of the step count
+	if (steps < 0) {
+		digitalWrite(_pinDir, HIGH);
+	} else {
+		digitalWrite(_pinDir, LOW);
+	}
+
+	// now just take the magnitude of the steps
+	steps = abs(steps);
 
 	// loop through and move the desired number of steps
 	while (steps > 0) {
@@ -114,6 +122,12 @@ void AngleStepper::step() {
     // update the current state
     _currentStep++;
     _currentAngle += _anglePerStep;
+
+    // make sure angle states between 0 and 360
+    // TODO: adjust this based on angle definition mode to be introduced
+    if (_currentAngle >= 360.0f) {
+    	_currentAngle -= 360.0f;
+    }
 }
 
 
