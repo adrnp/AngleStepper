@@ -46,6 +46,8 @@ public:
 
 	void setCurrentStep(int step) { _currentStep = step; };
 
+	void resetAngleSwept() { _angleSwept = 0.0f; };
+
 	void setMaxSpeed(int anglePerSecond) { _maxSpeed = anglePerSecond; };
 
 	void setNextStepSize(int numSteps) { _numSteps = numSteps; };
@@ -53,6 +55,8 @@ public:
 	float getCurrentAngle() { return _currentAngle; };
 
 	int getCurrentStep() { return _currentStep; };
+
+	float getAngleSwept() { return _angleSwept; };
 
 
 	void moveTo(float angle);
@@ -83,6 +87,7 @@ private:
 	float _currentAngle;
 	float _currentStep;
 	Direction _currentDirection;
+	float _angleSwept;
 
 	float _targetAngle;
 

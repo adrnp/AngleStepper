@@ -13,10 +13,11 @@ _pinStep(pinStep),
 _pinDir(pinDir),
 _stepsPerRevolution(stepsPerRevolution),
 _gearRatio(gearRatio),
-_currentAngle(0),
+_currentAngle(0.0f),
 _currentStep(0),
 _currentDirection(Direction::CW),
-_targetAngle(0),
+_angleSwept(0.0f),
+_targetAngle(0.0f),
 _maxSpeed(10),
 _numSteps(8)
 {
@@ -132,6 +133,8 @@ void AngleStepper::step() {
     	_currentAngle -= _anglePerStep;	
     }
 
+    // update the angle swept -> this is simply cumulative angle, so direction doesn't matter
+    _angleSwept += _anglePerStep;
 
     // make sure angle states between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
