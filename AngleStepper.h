@@ -54,9 +54,13 @@ public:
 
 	float getCurrentAngle() { return _currentAngle; };
 
+	int32_t getCurrentMilliAngle() { return _currentMilliAngle; };
+
 	int getCurrentStep() { return _currentStep; };
 
 	float getAngleSwept() { return _angleSwept; };
+
+	int32_t getMilliAngleSwept() { return _milliAngleSwept; };
 
 
 	void moveTo(float angle);
@@ -83,11 +87,15 @@ private:
 	float _anglePerFullStep;
 	float _anglePerStep;
 
+	int32_t _milliAnglePerStep;
+
 
 	float _currentAngle;
+	int32_t _currentMilliAngle;
 	float _currentStep;
 	Direction _currentDirection;
 	float _angleSwept;
+	int32_t _milliAngleSwept;
 
 	float _targetAngle;
 

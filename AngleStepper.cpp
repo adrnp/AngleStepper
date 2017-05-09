@@ -14,9 +14,11 @@ _pinDir(pinDir),
 _stepsPerRevolution(stepsPerRevolution),
 _gearRatio(gearRatio),
 _currentAngle(0.0f),
+_currentMilliAngle(0),
 _currentStep(0),
 _currentDirection(Direction::CW),
 _angleSwept(0.0f),
+_milliAngleSwept(0),
 _targetAngle(0.0f),
 _maxSpeed(10),
 _numSteps(8)
@@ -24,6 +26,8 @@ _numSteps(8)
 	// based on the motor properties, set the angle per step that is capable
 	_anglePerFullStep = 360.0f/_stepsPerRevolution;
 	_anglePerStep = 360.0f/(_stepsPerRevolution << _stepMode);
+
+	_milliAnglePerStep = (int) (_anglePerStep*1000.0f);
 
 	calculateStepDelay();
 
@@ -45,14 +49,16 @@ void AngleStepper::moveTo(float angle) {
 	calculateStepDelay();
 
 	// find how how much we need to move
-	float angleDifference = angle - _currentAngle;
+	int32_t milliAngle = (int32_t) (angle*1000.0f);
+	int32_t milliAngleDifference = milliAngle - _currentMilliAngle;
 
 	// TODO: handle angle wrapping and such properly!!
 	
 
 	// convert angle requirement to step requirement
 	// TODO: handle the errors.... (the remainder on the conversion to an int)
-	int stepDifference = (int) round(angleDifference/_anglePerStep);
+	//int stepDifference = (int) round(angleDifference/_anglePerStep);
+	int stepDifference = (int) (milliAngleDifference/_milliAnglePerStep);
 	move(stepDifference);
 
 }
@@ -127,18 +133,22 @@ void AngleStepper::step() {
     // note: sign depends on current direction
     if (_currentDirection == Direction::CW) {
     	_currentStep++;
-    	_currentAngle += _anglePerStep;
+    	_currentMilliAngle += _milliAnglePerStep;
+    	_currentAngle = _currentMilliAngle/1000.0f;
     } else {
     	_currentStep--;
-    	_currentAngle -= _anglePerStep;	
+    	_currentMilliAngle -= _milliAnglePerStep;
+    	_currentAngle = _currentMilliAngle/1000.0f;	
     }
 
     // update the angle swept -> this is simply cumulative angle, so direction doesn't matter
     _angleSwept += _anglePerStep;
+    _milliAngleSwept += _milliAnglePerStep;
 
     // make sure angle states between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
-    if (_currentAngle >= 360.0f) {
+    if (_currentMilliAngle >= 360000) {
+    	_currentMilliAngle -= 360000;
     	_currentAngle -= 360.0f;
     }
 }
