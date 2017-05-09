@@ -82,6 +82,7 @@ private:
 
 	float _currentAngle;
 	float _currentStep;
+	Direction _currentDirection;
 
 	float _targetAngle;
 

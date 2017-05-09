@@ -15,6 +15,7 @@ _stepsPerRevolution(stepsPerRevolution),
 _gearRatio(gearRatio),
 _currentAngle(0),
 _currentStep(0),
+_currentDirection(Direction::CW),
 _targetAngle(0),
 _maxSpeed(10),
 _numSteps(8)
@@ -50,7 +51,7 @@ void AngleStepper::moveTo(float angle) {
 
 	// convert angle requirement to step requirement
 	// TODO: handle the errors.... (the remainder on the conversion to an int)
-	int stepDifference = (int) (angleDifference/_anglePerStep);
+	int stepDifference = (int) round(angleDifference/_anglePerStep);
 	move(stepDifference);
 
 }
@@ -62,7 +63,7 @@ void AngleStepper::moveBy(float deltaAngle) {
 
 	// convert angle requirement to step requirement
 	// TODO: handle the errors.... (the remainder on the conversion to an int)
-	int stepDifference = (int) (deltaAngle/_anglePerStep);
+	int stepDifference = (int) round(deltaAngle/_anglePerStep);
 	move(stepDifference);
 
 }
@@ -96,8 +97,10 @@ void AngleStepper::move(int steps) {
 	// set the direction based on the sign of the step count
 	if (steps < 0) {
 		digitalWrite(_pinDir, HIGH);
+		_currentDirection = Direction::CCW;
 	} else {
 		digitalWrite(_pinDir, LOW);
+		_currentDirection = Direction::CW;
 	}
 
 	// now just take the magnitude of the steps
@@ -120,8 +123,15 @@ void AngleStepper::step() {
     digitalWrite(_pinStep, LOW);
 
     // update the current state
-    _currentStep++;
-    _currentAngle += _anglePerStep;
+    // note: sign depends on current direction
+    if (_currentDirection == Direction::CW) {
+    	_currentStep++;
+    	_currentAngle += _anglePerStep;
+    } else {
+    	_currentStep--;
+    	_currentAngle -= _anglePerStep;	
+    }
+
 
     // make sure angle states between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
