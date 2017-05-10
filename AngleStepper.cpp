@@ -13,11 +13,9 @@ _pinStep(pinStep),
 _pinDir(pinDir),
 _stepsPerRevolution(stepsPerRevolution),
 _gearRatio(gearRatio),
-_currentAngle(0.0f),
 _currentMilliAngle(0),
 _currentStep(0),
 _currentDirection(Direction::CW),
-_angleSwept(0.0f),
 _milliAngleSwept(0),
 _targetAngle(0.0f),
 _maxSpeed(10),
@@ -76,7 +74,7 @@ void AngleStepper::moveBy(float deltaAngle) {
 }
 
 
-float AngleStepper::moveToNext() {
+int32_t AngleStepper::moveToNext() {
 
 	// make sure we have the proper step delay (speed)
 	calculateStepDelay();
@@ -84,7 +82,7 @@ float AngleStepper::moveToNext() {
 	// move the number of steps defined by the num steps parameter
 	move(_numSteps);
 
-	return _currentAngle;
+	return _currentMilliAngle;
 }
 
 
@@ -134,22 +132,18 @@ void AngleStepper::step() {
     if (_currentDirection == Direction::CW) {
     	_currentStep++;
     	_currentMilliAngle += _milliAnglePerStep;
-    	_currentAngle = _currentMilliAngle/1000.0f;
     } else {
     	_currentStep--;
     	_currentMilliAngle -= _milliAnglePerStep;
-    	_currentAngle = _currentMilliAngle/1000.0f;	
     }
 
     // update the angle swept -> this is simply cumulative angle, so direction doesn't matter
-    _angleSwept += _anglePerStep;
     _milliAngleSwept += _milliAnglePerStep;
 
     // make sure angle states between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
     if (_currentMilliAngle >= 360000) {
     	_currentMilliAngle -= 360000;
-    	_currentAngle -= 360.0f;
     }
 }
 
