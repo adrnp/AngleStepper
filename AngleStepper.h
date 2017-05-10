@@ -101,7 +101,7 @@ private:
 	int _maxSpeed;
 	int _numSteps;
 
-	int _stepDelayMicroseconds;
+	long _stepDelayMicroseconds;
 
 
 	void calculateStepDelay();

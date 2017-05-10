@@ -91,7 +91,7 @@ void AngleStepper::calculateStepDelay() {
 	float stepDelaySeconds = _anglePerStep/_maxSpeed;
 
 	// step delay does need to be a int... so we need to do some rounding
-	_stepDelayMicroseconds = (int) (stepDelaySeconds * 1e6);
+	_stepDelayMicroseconds = (long) (stepDelaySeconds * 1e6);
 
 	// TODO: handle the rounding errors....
 }
