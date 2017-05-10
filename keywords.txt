@@ -14,9 +14,14 @@ AngleStepper	KEYWORD1
 
 setCurrentAngle	KEYWORD2
 setCurrentSpeed	KEYWORD2
+resetAngleSweep	KEYWORD2
 setMaxSpeed	KEYWORD2
+setNextStepSize	KEYWORD2
 getCurrentAngle	KEYWORD2
+getCurrentMilliAngle	KEYWORD2
 getCurrentStep	KEYWORD2
+getAngleSwept	KEYWORD2
+getMilliAngleSwept	KEYWORD2
 moveTo	KEYWORD2
 moveBy	KEYWORD2
 moveToNext	KEYWORD2
