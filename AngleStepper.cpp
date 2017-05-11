@@ -54,11 +54,24 @@ void AngleStepper::moveTo(float angle) {
 	
 
 	// convert angle requirement to step requirement
-	// TODO: handle the errors.... (the remainder on the conversion to an int)
-	//int stepDifference = (int) round(angleDifference/_anglePerStep);
 	int stepDifference = (int) (milliAngleDifference/_milliAnglePerStep);
 	move(stepDifference);
 
+}
+
+void AngleStepper::moveTo(int32_t milliAngle) {
+	// make sure we have the proper step delay
+	calculateStepDelay();
+
+	// find how how much we need to move
+	int32_t milliAngleDifference = milliAngle - _currentMilliAngle;
+
+	// TODO: handle angle wrapping and such properly!!
+	
+
+	// convert angle requirement to step requirement
+	int stepDifference = (int) (milliAngleDifference/_milliAnglePerStep);
+	move(stepDifference);
 }
 
 void AngleStepper::moveBy(float deltaAngle) {

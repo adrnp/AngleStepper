@@ -64,6 +64,7 @@ public:
 
 
 	void moveTo(float angle);
+	void moveTo(int32_t angle);
 
 	void moveBy(float deltaAngle);
 
