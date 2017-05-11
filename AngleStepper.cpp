@@ -41,6 +41,11 @@ AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, i
 AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir) : AngleStepper(stepMode, pinStep, pinDir, 200, 1) {}
 
 
+void AngleStepper::reset() {
+	moveTo((int32_t) 0);
+	resetAngleSwept();
+}
+
 void AngleStepper::moveTo(float angle) {
 
 	// make sure we have the proper step delay

@@ -24,6 +24,7 @@ getCurrentMilliAngle	KEYWORD2
 getCurrentStep	KEYWORD2
 getAngleSwept	KEYWORD2
 getMilliAngleSwept	KEYWORD2
+reset	KEYWORD2
 moveTo	KEYWORD2
 moveBy	KEYWORD2
 moveToNext	KEYWORD2

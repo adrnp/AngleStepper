@@ -62,6 +62,8 @@ public:
 
 	int32_t getMilliAngleSwept() { return _milliAngleSwept; };
 
+	void reset();
+
 
 	void moveTo(float angle);
 	void moveTo(int32_t angle);
