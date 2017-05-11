@@ -7,6 +7,8 @@
 #######################################
 
 AngleStepper	KEYWORD1
+StepMode	KEYWORD1
+Direction	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -29,3 +31,10 @@ moveToNext	KEYWORD2
 ######################################
 # Constants (LITERAL1)
 #######################################
+
+FULL_STEP	LITERAL1
+HALF_STEP	LITERAL1
+QUARTER_STEP	LITERAL1
+EIGTH_STEP	LITERAL1
+CW	LITERAL1
+CCW	LITERAL1

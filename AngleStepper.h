@@ -22,7 +22,7 @@ public:
 	/**
 	 * @brief      the possible options for the step mode the controller is in
 	 */
-	enum StepMode : uint8_t {
+	enum class StepMode : uint8_t {
 		FULL_STEP = 0,
 		HALF_STEP,
 		QUARTER_STEP,
@@ -32,14 +32,14 @@ public:
 	/**
 	 * @brief      possible directions of travel for the motor (may not be of use!!!)
 	 */
-	enum Direction : int8_t {
+	enum class Direction : int8_t {
 		CW = 1,
 		CCW = -1
 	};
 
-	AngleStepper(uint8_t stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio);
-	AngleStepper(uint8_t stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution);
-	AngleStepper(uint8_t stepMode, uint8_t pinStep, uint8_t pinDir);
+	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio);
+	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution);
+	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir);
 
 
 	void setCurrentAngle(float angle) { _currentMilliAngle = (int32_t) (angle*1000.0f); };
@@ -77,7 +77,7 @@ public:
 
 private:
 
-	uint8_t _stepMode;
+	StepMode _stepMode;
 	const uint8_t _pinDir;
 	const uint8_t _pinStep;
 

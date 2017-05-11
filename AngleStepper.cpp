@@ -7,7 +7,7 @@
 #include "AngleStepper.h"
 
 
-AngleStepper::AngleStepper(uint8_t stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio) : 
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio) : 
 _stepMode(stepMode),
 _pinStep(pinStep),
 _pinDir(pinDir),
@@ -23,7 +23,7 @@ _numSteps(8)
 {
 	// based on the motor properties, set the angle per step that is capable
 	_anglePerFullStep = 360.0f/_stepsPerRevolution;
-	_anglePerStep = 360.0f/(_stepsPerRevolution << _stepMode);
+	_anglePerStep = 360.0f/(_stepsPerRevolution << static_cast<uint8_t> (_stepMode));
 
 	_milliAnglePerStep = (int) (_anglePerStep*1000.0f);
 
@@ -37,8 +37,8 @@ _numSteps(8)
 	digitalWrite(pinStep, LOW);
 }
 
-AngleStepper::AngleStepper(uint8_t stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution) : AngleStepper(stepMode, pinStep, pinDir, stepsPerRevolution, 1) {}
-AngleStepper::AngleStepper(uint8_t stepMode, uint8_t pinStep, uint8_t pinDir) : AngleStepper(stepMode, pinStep, pinDir, 200, 1) {}
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution) : AngleStepper(stepMode, pinStep, pinDir, stepsPerRevolution, 1) {}
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir) : AngleStepper(stepMode, pinStep, pinDir, 200, 1) {}
 
 
 void AngleStepper::moveTo(float angle) {
