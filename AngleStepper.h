@@ -80,6 +80,9 @@ public:
 	 */
 	int32_t moveToNext();
 
+	// make this public for now, so the adjustment command can work -> potentially want to find better way
+	void move(int steps);
+
 private:
 
 	StepMode _stepMode;
@@ -112,7 +115,7 @@ private:
 
 	void calculateStepDelay();
 
-	void move(int steps);
+	
 	void step();
 
 
