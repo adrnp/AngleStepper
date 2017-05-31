@@ -98,7 +98,8 @@ int32_t AngleStepper::moveToNext() {
 	// make sure we have the proper step delay (speed)
 	calculateStepDelay();
 
-	int numSteps = _numSteps;
+	// need to take into account gear ratio here - since it is taken into account in the other higher level move functions
+	int numSteps = _gearRatio * _numSteps;
 
 	// now need to adjust for direction
 	if (_nextDirection == Direction::CCW) {
@@ -135,7 +136,7 @@ void AngleStepper::move(int steps) {
 	}
 
 	// now just take the magnitude of the steps and adjust for the gear ratio
-	steps = _gearRatio * abs(steps);
+	steps = abs(steps);
 
 	// loop through and move the desired number of steps
 	while (steps > 0) {
