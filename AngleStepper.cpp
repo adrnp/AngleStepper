@@ -19,11 +19,12 @@ _currentDirection(Direction::CW),
 _milliAngleSwept(0),
 _targetAngle(0.0f),
 _maxSpeed(10),
-_numSteps(8)
+_numSteps(8),
+_nextDirection(Direction::CW)
 {
 	// based on the motor properties, set the angle per step that is capable
-	_anglePerFullStep = 360.0f/_stepsPerRevolution;
-	_anglePerStep = 360.0f/(_stepsPerRevolution << static_cast<uint8_t> (_stepMode));
+	_anglePerFullStep = 360.0f/(_stepsPerRevolution * _gearRatio);
+	_anglePerStep = 360.0f/((_stepsPerRevolution << static_cast<uint8_t> (_stepMode)) * _gearRatio);
 
 	_milliAnglePerStep = (int) (_anglePerStep*1000.0f);
 
@@ -97,8 +98,15 @@ int32_t AngleStepper::moveToNext() {
 	// make sure we have the proper step delay (speed)
 	calculateStepDelay();
 
+	int numSteps = _numSteps;
+
+	// now need to adjust for direction
+	if (_nextDirection == Direction::CCW) {
+		numSteps *= -1;
+	}
+
 	// move the number of steps defined by the num steps parameter
-	move(_numSteps);
+	move(numSteps);
 
 	return _currentMilliAngle;
 }
@@ -126,8 +134,8 @@ void AngleStepper::move(int steps) {
 		_currentDirection = Direction::CW;
 	}
 
-	// now just take the magnitude of the steps
-	steps = abs(steps);
+	// now just take the magnitude of the steps and adjust for the gear ratio
+	steps = _gearRatio * abs(steps);
 
 	// loop through and move the desired number of steps
 	while (steps > 0) {

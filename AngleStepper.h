@@ -52,6 +52,8 @@ public:
 
 	void setNextStepSize(unsigned int numSteps) { _numSteps = numSteps; };
 
+	void setMoveToNextDirection(Direction dir) { _nextDirection = dir; };
+
 	float getCurrentAngle() { return _currentMilliAngle/1000.0f; };
 
 	int32_t getCurrentMilliAngle() { return _currentMilliAngle; };
@@ -103,6 +105,7 @@ private:
 
 	int _maxSpeed;
 	unsigned int _numSteps;
+	Direction _nextDirection;
 
 	long _stepDelayMicroseconds;
 
