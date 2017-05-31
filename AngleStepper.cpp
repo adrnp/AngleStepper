@@ -93,6 +93,17 @@ void AngleStepper::moveBy(float deltaAngle) {
 }
 
 
+void AngleStepper::moveBy(int32_t deltaMilliAngle) {
+	// make sure we have the proper step delay
+	calculateStepDelay();
+
+	// convert angle requirement to step requirement
+	// TODO: handle rounding errors
+	int stepDifference = (int) deltaMilliAngle/_milliAnglePerStep;
+	move(stepDifference);
+}
+
+
 int32_t AngleStepper::moveToNext() {
 
 	// make sure we have the proper step delay (speed)

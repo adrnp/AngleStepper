@@ -71,6 +71,7 @@ public:
 	void moveTo(int32_t angle);
 
 	void moveBy(float deltaAngle);
+	void moveBy(int32_t deltaMilliAngle);
 
 	/**
 	 * @brief      move to the next angle along the routine.
