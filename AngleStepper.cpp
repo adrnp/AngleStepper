@@ -26,7 +26,7 @@ _nextDirection(Direction::CW)
 	_anglePerFullStep = 360.0f/(_stepsPerRevolution * _gearRatio);
 	_anglePerStep = 360.0f/((_stepsPerRevolution << static_cast<uint8_t> (_stepMode)) * _gearRatio);
 
-	_microAnglePerStep = (int) (_anglePerStep*1e6f);
+	_microAnglePerStep = (int32_t) (_anglePerStep*1e6f);
 
 	calculateStepDelay();
 
@@ -180,8 +180,8 @@ void AngleStepper::step() {
 
     // make sure angle states between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
-    if (_currentMicroAngle >= 360000) {
-    	_currentMicroAngle -= 360000;
+    if (_currentMicroAngle >= 360000000) {
+    	_currentMicroAngle -= 360000000;
     }
 }
 
