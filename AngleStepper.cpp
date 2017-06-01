@@ -13,10 +13,10 @@ _pinStep(pinStep),
 _pinDir(pinDir),
 _stepsPerRevolution(stepsPerRevolution),
 _gearRatio(gearRatio),
-_currentMilliAngle(0),
+_currentMicroAngle(0),
 _currentStep(0),
 _currentDirection(Direction::CW),
-_milliAngleSwept(0),
+_microAngleSwept(0),
 _targetAngle(0.0f),
 _maxSpeed(10),
 _numSteps(8),
@@ -26,7 +26,7 @@ _nextDirection(Direction::CW)
 	_anglePerFullStep = 360.0f/(_stepsPerRevolution * _gearRatio);
 	_anglePerStep = 360.0f/((_stepsPerRevolution << static_cast<uint8_t> (_stepMode)) * _gearRatio);
 
-	_milliAnglePerStep = (int) (_anglePerStep*1000.0f);
+	_microAnglePerStep = (int) (_anglePerStep*1e6f);
 
 	calculateStepDelay();
 
@@ -53,30 +53,30 @@ void AngleStepper::moveTo(float angle) {
 	calculateStepDelay();
 
 	// find how how much we need to move
-	int32_t milliAngle = (int32_t) (angle*1000.0f);
-	int32_t milliAngleDifference = milliAngle - _currentMilliAngle;
+	int32_t microAngle = (int32_t) (angle*1e6f);
+	int32_t microAngleDifference = microAngle - _currentMicroAngle;
 
 	// TODO: handle angle wrapping and such properly!!
 	
 
 	// convert angle requirement to step requirement
-	int stepDifference = (int) (milliAngleDifference/_milliAnglePerStep);
+	int stepDifference = (int) (microAngleDifference/_microAnglePerStep);
 	move(stepDifference);
 
 }
 
-void AngleStepper::moveTo(int32_t milliAngle) {
+void AngleStepper::moveTo(int32_t microAngle) {
 	// make sure we have the proper step delay
 	calculateStepDelay();
 
 	// find how how much we need to move
-	int32_t milliAngleDifference = milliAngle - _currentMilliAngle;
+	int32_t microAngleDifference = microAngle - _currentMicroAngle;
 
 	// TODO: handle angle wrapping and such properly!!
 	
 
 	// convert angle requirement to step requirement
-	int stepDifference = (int) (milliAngleDifference/_milliAnglePerStep);
+	int stepDifference = (int) (microAngleDifference/_microAnglePerStep);
 	move(stepDifference);
 }
 
@@ -99,7 +99,7 @@ void AngleStepper::moveBy(int32_t deltaMilliAngle) {
 
 	// convert angle requirement to step requirement
 	// TODO: handle rounding errors
-	int stepDifference = (int) deltaMilliAngle/_milliAnglePerStep;
+	int stepDifference = (int) deltaMilliAngle/_microAnglePerStep;
 	move(stepDifference);
 }
 
@@ -120,7 +120,7 @@ int32_t AngleStepper::moveToNext() {
 	// move the number of steps defined by the num steps parameter
 	move(numSteps);
 
-	return _currentMilliAngle;
+	return _currentMicroAngle;
 }
 
 
@@ -169,19 +169,19 @@ void AngleStepper::step() {
     // note: sign depends on current direction
     if (_currentDirection == Direction::CW) {
     	_currentStep++;
-    	_currentMilliAngle += _milliAnglePerStep;
+    	_currentMicroAngle += _microAnglePerStep;
     } else {
     	_currentStep--;
-    	_currentMilliAngle -= _milliAnglePerStep;
+    	_currentMicroAngle -= _microAnglePerStep;
     }
 
     // update the angle swept -> this is simply cumulative angle, so direction doesn't matter
-    _milliAngleSwept += _milliAnglePerStep;
+    _microAngleSwept += _microAnglePerStep;
 
     // make sure angle states between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
-    if (_currentMilliAngle >= 360000) {
-    	_currentMilliAngle -= 360000;
+    if (_currentMicroAngle >= 360000) {
+    	_currentMicroAngle -= 360000;
     }
 }
 

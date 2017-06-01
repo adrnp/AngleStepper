@@ -42,11 +42,11 @@ public:
 	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir);
 
 
-	void setCurrentAngle(float angle) { _currentMilliAngle = (int32_t) (angle*1000.0f); };
+	void setCurrentAngle(float angle) { _currentMicroAngle = (int32_t) (angle*1e6f); };
 
 	void setCurrentStep(int step) { _currentStep = step; };
 
-	void resetAngleSwept() { _milliAngleSwept = 0; };
+	void resetAngleSwept() { _microAngleSwept = 0; };
 
 	void setMaxSpeed(int anglePerSecond) { _maxSpeed = anglePerSecond; };
 
@@ -54,15 +54,15 @@ public:
 
 	void setMoveToNextDirection(Direction dir) { _nextDirection = dir; };
 
-	float getCurrentAngle() { return _currentMilliAngle/1000.0f; };
+	float getCurrentAngle() { return _currentMicroAngle/1e6f; };
 
-	int32_t getCurrentMilliAngle() { return _currentMilliAngle; };
+	int32_t getCurrentMicroAngle() { return _currentMicroAngle; };
 
 	int getCurrentStep() { return _currentStep; };
 
-	float getAngleSwept() { return _milliAngleSwept/1000.0f; };
+	float getAngleSwept() { return _microAngleSwept/1e6f; };
 
-	int32_t getMilliAngleSwept() { return _milliAngleSwept; };
+	int32_t getMicroAngleSwept() { return _microAngleSwept; };
 
 	void reset();
 
@@ -96,13 +96,13 @@ private:
 	float _anglePerFullStep;
 	float _anglePerStep;
 
-	int32_t _milliAnglePerStep;
+	int32_t _microAnglePerStep;
 
 
-	int32_t _currentMilliAngle;
+	int32_t _currentMicroAngle;
 	float _currentStep;
 	Direction _currentDirection;
-	int32_t _milliAngleSwept;
+	int32_t _microAngleSwept;
 
 	float _targetAngle;
 
