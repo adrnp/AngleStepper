@@ -99,7 +99,7 @@ void AngleStepper::moveBy(int32_t deltaMilliAngle) {
 
 	// convert angle requirement to step requirement
 	// TODO: handle rounding errors
-	int stepDifference = (int) deltaMilliAngle/_microAnglePerStep;
+	int stepDifference = (int) (deltaMilliAngle/_microAnglePerStep);
 	move(stepDifference);
 }
 
@@ -178,10 +178,16 @@ void AngleStepper::step() {
     // update the angle swept -> this is simply cumulative angle, so direction doesn't matter
     _microAngleSwept += _microAnglePerStep;
 
-    // make sure angle states between 0 and 360
+    // make sure angle stays between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
+    // handle over 360 case
     if (_currentMicroAngle >= 360000000) {
     	_currentMicroAngle -= 360000000;
+    }
+
+    // handle below 0 case
+    if (_currentMicroAngle < 0) {
+    	_currentMicroAngle += 360000000;
     }
 }
 
