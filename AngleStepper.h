@@ -37,7 +37,12 @@ public:
 		CCW = -1
 	};
 
-	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio);
+	enum class AngleMode : uint8_t {
+		END_360 = 0,
+		END_180
+	};
+
+	AngleStepper(StepMode stepMode, AngleMode angleMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio);
 	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution);
 	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir);
 
@@ -112,6 +117,9 @@ private:
 	Direction _nextDirection;
 
 	long _stepDelayMicroseconds;
+
+	int32_t _minAllowedAngle;
+	int32_t _maxAllowedAngle;
 
 
 	void calculateStepDelay();

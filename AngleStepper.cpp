@@ -7,7 +7,7 @@
 #include "AngleStepper.h"
 
 
-AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio) : 
+AngleStepper::AngleStepper(StepMode stepMode, AngleMode angleMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio) : 
 _stepMode(stepMode),
 _pinStep(pinStep),
 _pinDir(pinDir),
@@ -30,6 +30,15 @@ _nextDirection(Direction::CW)
 
 	calculateStepDelay();
 
+	// set the max/min allowed angles based on the angle mode
+	if (angleMode == AngleMode::END_360) {
+		_minAllowedAngle = 0;
+		_maxAllowedAngle = 360000000;
+	} else {
+		_minAllowedAngle = -180000000;
+		_maxAllowedAngle = 180000000;
+	}
+
 	// configure the pin modes
 	pinMode(pinDir, OUTPUT);
 	pinMode(pinStep, OUTPUT);
@@ -38,8 +47,8 @@ _nextDirection(Direction::CW)
 	digitalWrite(pinStep, LOW);
 }
 
-AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution) : AngleStepper(stepMode, pinStep, pinDir, stepsPerRevolution, 1) {}
-AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir) : AngleStepper(stepMode, pinStep, pinDir, 200, 1) {}
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution) : AngleStepper(stepMode, AngleMode::END_360, pinStep, pinDir, stepsPerRevolution, 1) {}
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir) : AngleStepper(stepMode, AngleMode::END_360, pinStep, pinDir, 200, 1) {}
 
 
 void AngleStepper::reset() {
@@ -181,12 +190,12 @@ void AngleStepper::step() {
     // make sure angle stays between 0 and 360
     // TODO: adjust this based on angle definition mode to be introduced
     // handle over 360 case
-    if (_currentMicroAngle >= 360000000) {
+    if (_currentMicroAngle >= _maxAllowedAngle) {
     	_currentMicroAngle -= 360000000;
     }
 
     // handle below 0 case
-    if (_currentMicroAngle < 0) {
+    if (_currentMicroAngle < _minAllowedAngle) {
     	_currentMicroAngle += 360000000;
     }
 }
