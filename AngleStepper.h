@@ -43,7 +43,8 @@ public:
 	};
 
 	AngleStepper(StepMode stepMode, AngleMode angleMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution, float gearRatio);
-	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution);
+	AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, float gearRatio, int stepsPerRevolution);
+	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, float gearRatio);
 	AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir);
 
 

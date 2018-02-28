@@ -47,7 +47,8 @@ _nextDirection(Direction::CW)
 	digitalWrite(pinStep, LOW);
 }
 
-AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, int stepsPerRevolution) : AngleStepper(stepMode, AngleMode::END_360, pinStep, pinDir, stepsPerRevolution, 1) {}
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, float gearRatio, int stepsPerRevolution) : AngleStepper(stepMode, AngleMode::END_360, pinStep, pinDir, stepsPerRevolution, gearRatio) {}
+AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir, float gearRatio) : AngleStepper(stepMode, AngleMode::END_360, pinStep, pinDir, 200, gearRatio) {}
 AngleStepper::AngleStepper(StepMode stepMode, uint8_t pinStep, uint8_t pinDir) : AngleStepper(stepMode, AngleMode::END_360, pinStep, pinDir, 200, 1) {}
 
 
